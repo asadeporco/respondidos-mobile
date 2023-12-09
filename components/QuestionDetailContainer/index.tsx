@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native"
 import AnswerCreateContainer from "../AnswerCreateContainer"
 
-const QuestionDetailContainer = ({ question }:any) =>{
+const QuestionDetailContainer = ({ question, navigation }:any) =>{
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{question.title}</Text>
             <Text>{question.description}</Text>
             <Text style={styles.subtitle}>{new Date(question.created_at).toLocaleDateString()}</Text>
-            <AnswerCreateContainer/>
+            <AnswerCreateContainer question_id={question.id} navigation={navigation}/>
         </View>
         
     )

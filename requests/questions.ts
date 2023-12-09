@@ -1,7 +1,7 @@
 import { Answer } from "../Types/Answer";
 import { UserSession } from "../Types/Auth";
 import { Category, Question, QuestionPost } from "../Types/Question";
-import { retrieveUserSession, post } from "./commons"
+import { post } from "./commons"
 
 export const getAnswers = (id:string):Promise<Answer[] | any> =>  {
     return fetch(`http://10.0.2.2:8000/answer/question/${id}/`, {

@@ -19,7 +19,7 @@ export const post = async <T>(postData: T, endpont:string):Promise<T|null> => {
         if (!user) {
         return null;
     }
-     const response = await fetch(`http://10.0.2.2:8000/question/`, {
+     const response = await fetch(endpont, {
                 method: 'POST',
                 body: JSON.stringify(postData),
                 headers: {

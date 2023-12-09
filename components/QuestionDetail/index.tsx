@@ -20,7 +20,7 @@ const QuestionDetail = ({ route, navigation }:any) =>{
         <FlatList
             data={answers}
             keyExtractor={(item:any) => item.id}
-            ListHeaderComponent={() => <QuestionDetailContainer question={question}></QuestionDetailContainer>}
+            ListHeaderComponent={() => <QuestionDetailContainer question={question} navigation={navigation}></QuestionDetailContainer>}
             renderItem={({item}) => <AnswerListContainer answer={item}></AnswerListContainer>}
         />
     )
