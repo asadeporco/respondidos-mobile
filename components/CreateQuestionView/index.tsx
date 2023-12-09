@@ -5,9 +5,10 @@ import { useState, useEffect} from 'react'
 import { SelectList } from "react-native-dropdown-select-list"
 import { Category, QuestionPost } from "../../Types/Question"
 import { getCategories, postQuestion } from "../../requests/questions"
+import TextInputForm from "../Inputs/TextInputForm"
 
 const CreateQuestion = ({navigation}:any) => {
-    const [title, setTitle] = useState<null | string>(null);
+    const [title, setTitle] = useState<string | null>(null);
     const [question, setQuestion] = useState<null | string>(null);
 
     const [category, setCategory] = useState<number | null>(null);
@@ -20,36 +21,27 @@ const CreateQuestion = ({navigation}:any) => {
     }, [])
 
     const submit = () => {
-        const response = postQuestion({title, description: question, category_id:category}).then((data:QuestionPost|null) => {
+        postQuestion({title, description: question, category_id:category}).then((data:QuestionPost|null) => {
+            setQuestion(null);
+            setCategory(null);
+            setTitle(null);
             navigation.navigate('QuestionList', {reload: true})
         });
-        const a = 1;
     }
+
     return (
         <View>
             <View>
                 {/* <Text> */}
-                <Input
-                    label="Titulo"
-                    multiline = {true}
-                    numberOfLines = {1}
-                    inputStyle={{backgroundColor: "#dbd7d7"}}
-                    onChangeText={text => setTitle(text)}>
-                </Input>
-                <Input
-                    label="Pergunta"
-                    multiline = {true}
-                    numberOfLines = {4}
-                    inputStyle={{backgroundColor: "#dbd7d7"}}
-                    onChangeText={text => setQuestion(text)}>
-                </Input>
+                <TextInputForm label="Titulo" value={title} setValue={setTitle}/>
+                <TextInputForm label="Descricao" value={question} setValue={setQuestion} lines={4}/>
                 <SelectList 
-                    setSelected={(val:number) => setCategory(val)} 
+                    setSelected={setCategory} 
                     data={categories} 
                     save="key"
                     searchPlaceholder="pesquisando"
+            
                 />
-
                 <View style={styles.submitContainer}>
                     <Button title="Enviar" onPress={() => submit()}/>
                 </View>

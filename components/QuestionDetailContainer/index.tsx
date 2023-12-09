@@ -7,7 +7,9 @@ const QuestionDetailContainer = ({ question }:any) =>{
             <Text style={styles.title}>{question.title}</Text>
             <Text>{question.description}</Text>
             <Text style={styles.subtitle}>{new Date(question.created_at).toLocaleDateString()}</Text>
+            <Text>{"aqui vai a resposta"}</Text>
         </View>
+        
     )
 }
 
