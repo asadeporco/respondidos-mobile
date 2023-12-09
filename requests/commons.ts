@@ -1,23 +1,10 @@
-import EncryptedStorage from 'react-native-encrypted-storage';
-import { UserSession } from '../Types/Auth';
+import { retrieveUserSession, getBase } from "./base";
 
 
-export const retrieveUserSession = async ():Promise<UserSession|null>  => {
-    try {   
-        const session = await EncryptedStorage.getItem("user");
-        if(session){
-            return JSON.parse(session);
-        }
-        return null;
-    } catch (error) {
-        return null
-    }
-}
-
-export const post = async <T>(postData: T, endpont:string):Promise<T|null> => {
+export const post = async <T>(postData: T, endpont:string):Promise<T> => {
     const user = await retrieveUserSession();
         if (!user) {
-        return null;
+        throw new Error("usuario n autenticado");
     }
      const response = await fetch(endpont, {
                 method: 'POST',
@@ -33,4 +20,13 @@ export const post = async <T>(postData: T, endpont:string):Promise<T|null> => {
     }
     const data = await response.json();
     return data.results;
+}
+
+
+export const getList = async <T>(endpont:string):Promise<T[]> => {
+    return getBase(endpont);
+}
+
+export const getById = async <T>(endpont:string):Promise<T> => {
+    return getBase(endpont);
 }

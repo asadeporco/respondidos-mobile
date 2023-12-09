@@ -24,9 +24,9 @@ const HomeList = ({navigation, route}:any) => {
             })
         })
     }
-    useFocusEffect(() => {
-        getQuestions();
-    })
+    // useFocusEffect(() => {
+    //     getQuestions();
+    // })
 
     useEffect(() => {
         getQuestions();

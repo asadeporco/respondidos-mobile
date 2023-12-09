@@ -16,7 +16,9 @@ const CreateQuestion = ({navigation}:any) => {
 
     useEffect(() => {
         getCategories().then((data) => {
-            setCategories(data.map(c => ({key: c.id, value: c.name})))
+            if (data) {
+                setCategories(data.map(c => ({key: c.id, value: c.name})))
+            }
         });
     }, [])
 

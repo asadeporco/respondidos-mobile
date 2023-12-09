@@ -7,12 +7,12 @@ import AnswerListContainer from "../AnswerListContainer/AnswerListContainer";
 import QuestionDetailContainer from "../QuestionDetailContainer";
 
 const QuestionDetail = ({ route, navigation }:any) =>{
-    const [answers, setAnswers] = useState([]);
+    const [answers, setAnswers] = useState<Answer[]|null>(null);
     const {question} = route.params;
 
     useEffect(() => {
         getAnswers(question.id).then(data =>{
-            setAnswers(data.results)
+            setAnswers(data)
         })
     }, [])
 
