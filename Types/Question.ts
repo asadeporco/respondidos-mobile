@@ -3,12 +3,13 @@ export type Question = {
     title:string
 }
 
-export type QuestionPostPayload = {
-    title: string,
-    description: string
-}
-
 export type Category =  {
     id: number,
     name: string
+}
+
+export type QuestionPost = {
+    title?: string|null,
+    description?: string|null,
+    category_id?: number|null
 }

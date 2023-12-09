@@ -1,11 +1,13 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Question } from "../../Types/Question";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList } from "react-native-gesture-handler";
+import { useFocusEffect } from '@react-navigation/native';
 import QuestionListContainer from "../QuestionListContainer";
+import {RefreshControl, FlatList} from "react-native"
 
-const HomeList = ({navigation}:any) => {
+const HomeList = ({navigation, route}:any) => {
     const [questions, setQuestions] = useState<Question[] | []>([])
+    const [refreshing, setRefreshing] = useState(false);
 
     const getQuestions = () => {
         fetch("http://10.0.2.2:8000/question", {
@@ -22,10 +24,21 @@ const HomeList = ({navigation}:any) => {
             })
         })
     }
+    useFocusEffect(() => {
+        getQuestions();
+    })
 
     useEffect(() => {
         getQuestions();
     },[])
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        getQuestions();
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 2000);
+      }, []);
 
 
     return (
@@ -34,6 +47,9 @@ const HomeList = ({navigation}:any) => {
                     data={questions}
                     renderItem={({item}) => <QuestionListContainer question={item} navigation={navigation}/>}
                     keyExtractor={item => item.id}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                      }
                 />
         </SafeAreaView>
     )

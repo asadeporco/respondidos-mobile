@@ -3,25 +3,27 @@ import { Text } from "react-native-reanimated/lib/typescript/Animated"
 import { Button, Input } from "@rneui/base"
 import { useState, useEffect} from 'react'
 import { SelectList } from "react-native-dropdown-select-list"
-import { Category } from "../../Types/Question"
-import { getCategories } from "../../requests/questions"
+import { Category, QuestionPost } from "../../Types/Question"
+import { getCategories, postQuestion } from "../../requests/questions"
 
-const CreateQuestion = () => {
+const CreateQuestion = ({navigation}:any) => {
     const [title, setTitle] = useState<null | string>(null);
     const [question, setQuestion] = useState<null | string>(null);
 
-    const [category, setCategory] = useState<Category | null>(null);
+    const [category, setCategory] = useState<number | null>(null);
     const [categories, setCategories] = useState<any>([]);
 
     useEffect(() => {
         getCategories().then((data) => {
-            setCategories(data.map(c => ({id: c.id, value: c.name})))
-            // setCategories(data)
+            setCategories(data.map(c => ({key: c.id, value: c.name})))
         });
     }, [])
 
     const submit = () => {
-
+        const response = postQuestion({title, description: question, category_id:category}).then((data:QuestionPost|null) => {
+            navigation.navigate('QuestionList', {reload: true})
+        });
+        const a = 1;
     }
     return (
         <View>
@@ -38,16 +40,18 @@ const CreateQuestion = () => {
                     label="Pergunta"
                     multiline = {true}
                     numberOfLines = {4}
-                    inputStyle={{backgroundColor: "#dbd7d7"}}>
+                    inputStyle={{backgroundColor: "#dbd7d7"}}
+                    onChangeText={text => setQuestion(text)}>
                 </Input>
                 <SelectList 
-                    setSelected={(val:Category) => setCategory(val)} 
+                    setSelected={(val:number) => setCategory(val)} 
                     data={categories} 
-                    save="value"
+                    save="key"
+                    searchPlaceholder="pesquisando"
                 />
 
                 <View style={styles.submitContainer}>
-                    <Button title="Enviar" />
+                    <Button title="Enviar" onPress={() => submit()}/>
                 </View>
 
             </View>

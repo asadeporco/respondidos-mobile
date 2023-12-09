@@ -3,3 +3,6 @@ export type Credentials = {
     token?: string
   }
   
+  export type UserSession = {
+    token: string
+  }

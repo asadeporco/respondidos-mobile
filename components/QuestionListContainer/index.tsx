@@ -12,7 +12,7 @@ const QuestionListContainer = ({question, navigation}:any) => {
             <ListItem>
                 <ListItem.Content>
                     <ListItem.Title>{question.title}</ListItem.Title>
-                    <ListItem.Subtitle right={false}>{question.category.name}</ListItem.Subtitle>
+                    <ListItem.Subtitle right={false}>{question.category?.name}</ListItem.Subtitle>
                     <ListItem.Subtitle>{new Date(question.created_at).toLocaleDateString()}</ListItem.Subtitle>
                     <ListItem.Subtitle numberOfLines={2}>{question.description}</ListItem.Subtitle>
 
