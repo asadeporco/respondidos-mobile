@@ -31,7 +31,7 @@ export const getBase = async (endpoint:string) => {
         throw new Error(response.statusText);
     }
     const data = await response.json();
-    return data.results;
+    return data;
 }
 
 export const postBase = async (postData:any, endpont:string) => {

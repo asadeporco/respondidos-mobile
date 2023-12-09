@@ -4,37 +4,33 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from '@react-navigation/native';
 import QuestionListContainer from "../QuestionListContainer";
 import {RefreshControl, FlatList} from "react-native"
+import { getQuestions } from "../../requests/questions";
 
 const HomeList = ({navigation, route}:any) => {
     const [questions, setQuestions] = useState<Question[] | []>([])
     const [refreshing, setRefreshing] = useState(false);
+    let update = true;
 
-    const getQuestions = () => {
-        fetch("http://10.0.2.2:8000/question", {
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => {
-            if (response.status !== 200) {
-                return;
-            }
-            response.json().then(data => {
-                setQuestions(data.results)
-            })
+    const getList = () => {
+        getQuestions().then(data => {
+            setQuestions(data);
         })
     }
-    // useFocusEffect(() => {
-    //     getQuestions();
-    // })
+
+    // useFocusEffect(
+    //     useCallback(() => {    
+    //       return () => getQuestions().then(data => setQuestions(data));
+    //     }, [questions])
+    //   );
+    
 
     useEffect(() => {
-        getQuestions();
+        getList();
     },[])
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getQuestions();
+        getList();
         setTimeout(() => {
           setRefreshing(false);
         }, 2000);

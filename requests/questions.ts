@@ -1,5 +1,4 @@
 import { Answer } from "../Types/Answer";
-import { UserSession } from "../Types/Auth";
 import { Category, Question, QuestionPost } from "../Types/Question";
 import { getList, post } from "./commons"
 
@@ -15,7 +14,12 @@ export const getCategories = async():Promise<Category[]> => {
     return data;
 }
 
-export const postQuestion = async (question:QuestionPost):Promise<QuestionPost|null> => {
+export const postQuestion = async (question:QuestionPost):Promise<QuestionPost> => {
     const data = await post<QuestionPost>(question, `http://10.0.2.2:8000/question/`);
+    return data;
+}
+
+export const getQuestions = async ():Promise<Question[]> => {
+    const data = getList<Question>('http://10.0.2.2:8000/question');
     return data;
 }
