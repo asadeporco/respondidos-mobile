@@ -23,3 +23,8 @@ export const getQuestions = async ():Promise<Question[]> => {
     const data = getList<Question>('http://10.0.2.2:8000/question');
     return data;
 }
+
+export const getQuestionsByUser = async (id:string):Promise<Question[]> => {
+    const data = getList<Question>(`http://10.0.2.2:8000//question/user/${id}/`);
+    return data;
+}
