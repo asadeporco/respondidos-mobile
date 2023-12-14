@@ -19,14 +19,16 @@ import {
 
 import Login from './components/Login';
 import Main from './components/Main';
-import CredentialsContext from './Contexts/CredentialsContext';
+import {CredentialsContext, UserContext} from './Contexts/CredentialsContext';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import { getCurrentUser } from './requests/user';
+import { User } from './Types/User';
 
 
 function App(): JSX.Element {
   const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState<User|null>(null);
   const [token, setToken] = useState("");
-
   const setUserData = async (token: string) => {
     try {
       await EncryptedStorage.setItem(
@@ -36,6 +38,9 @@ function App(): JSX.Element {
           })
       );
       setToken(token)
+      getCurrentUser().then(data => {
+          setUser(data);
+      })
 
       // Congrats! You've just stored your first value!
   } catch (error) {
@@ -43,16 +48,12 @@ function App(): JSX.Element {
   }
   }
 
-  
-
-  // const credentials = useContext(CredentialsContext);
-  
   return (
     <Fragment>
-      <CredentialsContext.Provider value={{token, isLogged}}>
+      <UserContext.Provider value={user}>
         {isLogged && <Main token={token} setIsLogged={setIsLogged}/>}
         {!isLogged && <Login setIsLogged={setIsLogged} setToken={setUserData}/>}
-      </CredentialsContext.Provider>
+      </UserContext.Provider>
     </Fragment>
     
   );

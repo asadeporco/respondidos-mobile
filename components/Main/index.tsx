@@ -4,7 +4,6 @@ import { Button, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-
 import Home from "../Home";
 import CreateQuestion from "../CreateQuestionView";
 import React, { Fragment, useState, useContext, createContext } from 'react';
-import CredentialsContext from "../../Contexts/CredentialsContext";
 import Profile from '../Profile'
 
 
@@ -20,7 +19,6 @@ const Main = ({token, setIsLogged}:any) => {
                 <Tab.Screen options={{headerShown:false}} name="Profile" component={Profile}/>
             </Tab.Navigator>
         </NavigationContainer>
-        <Button title="Logout"onPress={() => setIsLogged(false)}></Button>
         </Fragment>
 
     )

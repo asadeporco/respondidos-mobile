@@ -1,6 +1,5 @@
 import {Text, SafeAreaView, ScrollView} from 'react-native'
 import {useContext, useState, useEffect, Fragment} from 'react'
-import CredentialsContext from '../../Contexts/CredentialsContext'
 import QuestionListContainer from '../QuestionListContainer'
 import { createStackNavigator } from '@react-navigation/stack';
 import QuestionDetail from '../QuestionDetail';
@@ -10,7 +9,6 @@ import HomeList from '../HomeList';
 const Stack = createStackNavigator();
 
 const Home = () => {
-    const credentials = useContext(CredentialsContext)
     return (
         <Fragment>
             <Stack.Navigator>

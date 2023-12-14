@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { FlatList, SafeAreaView, Text, View, RefreshControl } from "react-native"
 import { Question } from "../../Types/Question"
 import QuestionListContainer from "../QuestionListContainer"
 import { getQuestions, getQuestionsByUser } from "../../requests/questions"
 import { getCurrentUser } from "../../requests/user"
 import { User } from "../../Types/User"
+import { UserContext } from "../../Contexts/CredentialsContext"
 
 const Profile = ({navigation}:any) => {
     const [userQuestions, setUserQuestions] = useState<Question[]|null>(null);
-    const [user, setUser] = useState<User|null>(null);
+    const user = useContext(UserContext);
     const [refreshing, setRefreshing] = useState(false);
-
 
     useEffect(() => {
         setUpData();
@@ -18,10 +18,10 @@ const Profile = ({navigation}:any) => {
 
 
     const setUpData = async() => {
-        const user = await getCurrentUser();
-        setUser(user);
-        const userQuestions = await getQuestionsByUser(user.id.toString());
-        setUserQuestions(userQuestions);
+        if (user) {
+            const userQuestions = await getQuestionsByUser(user.id.toString());
+            setUserQuestions(userQuestions);
+        }
     }
 
     const onRefresh = useCallback(() => {
@@ -36,7 +36,7 @@ const Profile = ({navigation}:any) => {
     return (
         <View>
             <SafeAreaView>
-            <Text>{user?.username}</Text>
+            <Text style={{fontSize: 30}}>{user?.username}</Text>
             <FlatList
                     data={userQuestions}
                     renderItem={({item}) => <QuestionListContainer question={item} navigation={navigation}/>}

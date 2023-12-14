@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { Credentials } from "../Types/Auth";
+import { User } from "../Types/User";
 
-const CredentialsContext = createContext<Credentials | null | undefined>(null)
-
-export default CredentialsContext;
+export const CredentialsContext = createContext<Credentials | null | undefined>(null)
+export const UserContext = createContext<User|null>(null)
